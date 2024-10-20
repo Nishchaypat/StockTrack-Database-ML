@@ -1,6 +1,7 @@
 import sys
 from sql_connect import sql_connector
 import re
+from stock_data import stockdata
 
 class StockTrack:
 
@@ -11,12 +12,16 @@ class StockTrack:
     def menu(self):
         user_input = int(input("""
                 1. Enter 1 to register\n
-                2. Enter 2 to login \n"""))
+                2. Enter 2 to login \n)
+                3. Enter 3 to insert a comapany \n"""))
 
         if user_input == 1:
             self.register()
         elif user_input == 2:
             self.login()
+        elif user_input == 3:
+            ticker = str(input("Enter a company ticker"))
+            self.company_table(ticker)
         else:
             sys.exit(1000)
 
@@ -69,5 +74,11 @@ class StockTrack:
 
         print(response)
 
+    def company_table (self, ticker):
+        company_sd = stockdata(ticker)
+        company_data = company_sd.company()
+
+        response = self.db.insert_company(company_data["Name"], company_data["Sector"], company_data["Industry"], company_data["Description"])
+        print("Insert company", response)
 
 st = StockTrack()

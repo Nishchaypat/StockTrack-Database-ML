@@ -10,14 +10,17 @@ class stockdata:
 
         ticker = yf.Ticker(self.ticker)
         info = ticker.info
-
+        name = info.get('longName') 
         sector = info.get('sector')
         industry = info.get('industry')
-        description = info.get('shortBusinessSummary')
-
-        print(f"Sector: {sector}")
-        print(f"Industry: {industry}")
-        print(f"Description: {description}")
+        description = info.get('longBusinessSummary')
+        company_data = {
+            "Name" : name,
+            "Sector" : sector,
+            "Industry" : industry,
+            "Description": description
+        }
+        return company_data
 
     def stockprice(self):
         today = datetime.date.today()
@@ -27,10 +30,12 @@ class stockdata:
         stock_data.reset_index(inplace=True)
 
         columns = stock_data.columns
+        stockprice_data = {}
         for i in range (0,5):
             for j in columns:
-                print(f"For the columns {j} value = {stock_data[j][i]}")
-            print('--------------------------------')
+                stockprice_data[j] = stock_data[j][i]
+
+        return stockprice_data
 
     def finmetric(self):
         ticker = yf.Ticker(self.ticker)
@@ -49,14 +54,14 @@ class stockdata:
 
         latest_dividend = dividends.iloc[-1] if not dividends.empty else 0  
 
-        result = {
+        finmetric_data = {
             "quarter": latest_income.name.strftime('%Y-%m-%d'), 
             "revenue": latest_financials['Total Revenue'],
             "earnings": latest_income['Net Income'],
             "dividends": latest_dividend
         }
 
-        print(result)    
+        return finmetric_data  
     
     def news(self):
         today = datetime.date.today()
@@ -70,8 +75,7 @@ class stockdata:
 
         response = requests.get(url)
         news_data = response.json()
-        print(url)
-
+        stock_news_data = []
         if news_data['status'] == 'ok' and news_data['articles']:
             for article in news_data['articles'][:3]:  
                 result = {
@@ -80,12 +84,12 @@ class stockdata:
                     "published_date": article['publishedAt']
                 }
                 print(result)
-                print('--------------------------------')
+                stock_news_data.append(result)
         else:
             print("No news articles available.")
+        
+        return stock_news_data
     
-    
-
 # ticker = yf.Ticker("AAPL")
 
 # info = ticker.info
@@ -95,5 +99,5 @@ class stockdata:
 
 
 
-sd = stockdata("AAPL")
-sd.ecoindicator()
+# sd = stockdata("AAPL")
+# sd.ecoindicator()
