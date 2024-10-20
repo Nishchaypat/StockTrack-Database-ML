@@ -22,23 +22,29 @@ class stockdata:
         }
         return company_data
 
-    def stockprice(self):
+    def stockprice(self, ticker):
         today = datetime.date.today()
         last_week = today - datetime.timedelta(days=7)
 
-        stock_data = yf.download(self.ticker, start=last_week, end=today)
+        stock_data = yf.download(ticker, start=last_week, end=today)
         stock_data.reset_index(inplace=True)
-
-        columns = stock_data.columns
-        stockprice_data = {}
-        for i in range (0,5):
-            for j in columns:
-                stockprice_data[j] = stock_data[j][i]
+        stock_data['Date'] = stock_data['Date'].dt.strftime('%Y-%m-%d')
+        stockprice_data = []
+        stock_data = stock_data.iloc[-1]
+        row_data = {
+            'Date': stock_data['Date'],
+            'Open': stock_data['Open'].item(),   # Convert to float
+            'High': stock_data['High'].item(),   # Convert to float
+            'Low': stock_data['Low'].item(),     # Convert to float
+            'Close': stock_data['Close'].item(), # Convert to float
+            'Volume': int(stock_data['Volume'])  # Convert to int
+        }
+        stockprice_data.append(row_data)
 
         return stockprice_data
 
-    def finmetric(self):
-        ticker = yf.Ticker(self.ticker)
+    def finmetric(self, ticker):
+        ticker = yf.Ticker(ticker)
 
         financials = ticker.financials
         income_stmt = ticker.income_stmt
@@ -52,7 +58,7 @@ class stockdata:
         latest_financials = financials.iloc[:, 0] 
         latest_income = income_stmt.iloc[:, 0] 
 
-        latest_dividend = dividends.iloc[-1] if not dividends.empty else 0  
+        latest_dividend = dividends.iloc[-1].item() if not dividends.empty else 0  
 
         finmetric_data = {
             "quarter": latest_income.name.strftime('%Y-%m-%d'), 
@@ -63,14 +69,14 @@ class stockdata:
 
         return finmetric_data  
     
-    def news(self):
+    def news(self, ticker):
         today = datetime.date.today()
         yesterday = today - datetime.timedelta(days=1)
 
         today_str = today.strftime('%Y-%m-%d')
         yesterday_str = yesterday.strftime('%Y-%m-%d')
 
-        query = f"{self.ticker} stock"  
+        query = f"{ticker} stock"  
         url = f'https://newsapi.org/v2/everything?q={query}&from={yesterday_str}&to={today_str}&sortBy=popularity&language=en&apiKey={self.news_api}'
 
         response = requests.get(url)
@@ -83,7 +89,6 @@ class stockdata:
                     "content": article['description'],  
                     "published_date": article['publishedAt']
                 }
-                print(result)
                 stock_news_data.append(result)
         else:
             print("No news articles available.")

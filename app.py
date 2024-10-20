@@ -74,11 +74,50 @@ class StockTrack:
 
         print(response)
 
+    def stock_price_table(self, response, ticker):
+        company_sd = stockdata(ticker)
+        stock_data = company_sd.stockprice(ticker)
+        for row in stock_data:
+            date = row['Date'] 
+            open_price = row['Open']
+            high = row['High']
+            low = row['Low']
+            close = row['Close']
+            volume = row['Volume']
+            
+            self.db.insert_stock_price(response, date, open_price, high, low, close, volume)
+        self.financial_metric_table(response, ticker)
+
     def company_table (self, ticker):
         company_sd = stockdata(ticker)
+        
         company_data = company_sd.company()
-
         response = self.db.insert_company(company_data["Name"], company_data["Sector"], company_data["Industry"], company_data["Description"])
-        print("Insert company", response)
+        
+        self.stock_price_table(response, ticker)
+
+    def financial_metric_table(self, response, ticker):
+        company_sd = stockdata(ticker)
+        fin_data = company_sd.finmetric(ticker)
+        quarter = fin_data['quarter'] 
+        revenue = fin_data['revenue']
+        earnings = fin_data['earnings']
+        dividends = fin_data['quarter']
+
+
+        self.db.insert_financial_metric(response, quarter, revenue, earnings, dividends)
+        self.news_table(response, ticker)
+
+    def news_table(self, response, ticker):
+        company_sd = stockdata(ticker)
+        
+        stock_news_data = company_sd.news(ticker)
+
+        for row in stock_news_data:
+            date = row['published_date'] 
+            title = row['title']
+            content = row['content']
+            
+            self.db.insert_news_article(response, title, content, date)
 
 st = StockTrack()
