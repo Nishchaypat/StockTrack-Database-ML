@@ -23,3 +23,16 @@ class sql_connector():
         except Exception as e:
             print(f"Error: {e}")
             return False
+        
+    def search(self, email, password):
+        try:
+            self.mycursor.execute("""
+                SELECT * FROM users 
+                WHERE email = %s AND password = %s;
+            """, (email, password))
+            data = self.mycursor.fetchall()
+            return data
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
+

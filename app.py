@@ -55,7 +55,7 @@ class StockTrack:
             else:
                 break
 
-        response = self.db.register(firstname, lastname, password, email)
+        response = self.db.register(firstname, lastname, email, password)
 
         if response:
             print("Registration successful.")
@@ -63,6 +63,11 @@ class StockTrack:
             print("Error occurred during registration.")
 
     def login(self):
-        pass
+        email = input("Enter your email address: \n")
+        password = input("Enter your password: \n")
+        response = self.db.search(email, password)
+
+        print(response)
+
 
 st = StockTrack()
