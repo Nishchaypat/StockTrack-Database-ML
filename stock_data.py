@@ -1,3 +1,4 @@
+from sql_connect import sql_connector
 import requests
 import yfinance as yf
 import datetime
@@ -106,3 +107,74 @@ class stockdata:
 
 # sd = stockdata("AAPL")
 # sd.ecoindicator()
+
+class populate_db:
+
+    def __init__(self):
+        self.db = sql_connector()
+
+    def company_table(self, ticker):
+        company_sd = stockdata(ticker)
+        
+        company_data = company_sd.company()
+        response = self.db.insert_company(str(ticker), company_data["Name"], company_data["Sector"], company_data["Industry"], company_data["Description"])
+        print(response)
+        self.stock_price_table(str(ticker))
+
+    def stock_price_table(self, ticker):
+        company_sd = stockdata(ticker)
+        stock_data = company_sd.stockprice(ticker)
+        for row in stock_data:
+            date = row['Date'] 
+            open_price = row['Open']
+            high = row['High']
+            low = row['Low']
+            close = row['Close']
+            volume = row['Volume']
+            
+            self.db.insert_stock_price(str(ticker), date, open_price, high, low, close, volume)
+        self.financial_metric_table(str(ticker))
+
+    def financial_metric_table(self, ticker):
+        company_sd = stockdata(ticker)
+        fin_data = company_sd.finmetric(ticker)
+        quarter = fin_data['quarter'] 
+        revenue = fin_data['revenue']
+        earnings = fin_data['earnings']
+        dividends = fin_data['dividends']
+
+        self.db.insert_financial_metric(str(ticker), quarter, revenue, earnings, dividends)
+        self.news_table(str(ticker))
+
+    def news_table(self, ticker):
+        company_sd = stockdata(ticker)
+        
+        stock_news_data = company_sd.news(ticker)
+
+        for row in stock_news_data:
+            date = row['published_date'] 
+            title = row['title']
+            content = row['content']
+            
+            self.db.insert_news_article(str(ticker), title, content, date)
+
+# populate = populate_db()
+
+# companies = [
+#     "NVDA", "AMD", "PYPL", "F", "GM", 
+#     "SPGI", "AXP", "GS", "BLK", "MS", 
+#     "DE", "IBM", "INTU", "ABBV", "ABT", 
+#     "BMY", "LLY", "GILD", "MRNA", "REGN", 
+#     "LRCX", "MU", "ADSK", "ATVI", "EA", 
+#     "DIS", "RCL", "UAL", "DAL", "AAL", 
+#     "BKNG", "MAR", "HLT", "KHC", "MO", 
+#     "CL", "EL", "TMO", "ISRG", "SYK", 
+#     "BDX", "DHR", "PLTR", "SQ", "SHOP", 
+#     "ZS", "PANW", "SNOW", "DDOG", "CRWD"
+# ]
+
+# for i in companies:
+#     try:
+#         populate.company_table(i)
+#     except:
+#         print(i)
