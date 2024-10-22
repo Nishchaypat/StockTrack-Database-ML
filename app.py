@@ -17,7 +17,8 @@ class StockTrack:
                 3. Enter 3 to insert a company \n
                 4. Enter 4 to delete a company \n
                 5. Enter 5 to delete your account \n
-                6. Enter 6 to exit\n"""))
+                6. Enter 6 to exit\n
+                7. Enter 7 to view your portfolio \n"""))
 
             if user_input == 1:
                 self.register()
@@ -33,6 +34,8 @@ class StockTrack:
                 self.delete_company()
             elif user_input == 5:
                 self.delete_user()
+            elif user_input == 7:
+                self.view_portfolio()
             elif user_input == 6:
                 print("Exiting application.")
                 sys.exit(0)
@@ -84,7 +87,7 @@ class StockTrack:
     def login(self):
         email = input("Enter your email address: \n")
         password = input("Enter your password: \n")
-        response = self.db.search(email, password)
+        response = self.db.login(email, password)
 
         if response:
             print("Login successful.")
@@ -109,6 +112,9 @@ class StockTrack:
         ticker = input("Enter the company ticker that you want to delete: ")
         self.db.delete_company_from_portfolio(self.user_id, ticker)
 
+    def view_portfolio(self):
+        response = self.db.search_portfolio(self.user_id)
+        print(response)
 
 if __name__ == "__main__":
     st = StockTrack()
