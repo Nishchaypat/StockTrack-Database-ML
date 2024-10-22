@@ -125,3 +125,17 @@ class sql_connector():
             print(f"Error: {e}")
             return None
 
+    def update_password(self, user_id, new_password):
+        hashed_new_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+
+        try:
+            self.mycursor.execute("""
+                UPDATE users
+                SET password = %s
+                WHERE id = %s;
+            """, (hashed_new_password, user_id))
+            self.conn.commit()
+            return True
+        except Exception as e:
+            print(f"Error: {e}")
+            return False

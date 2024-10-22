@@ -12,13 +12,15 @@ class StockTrack:
     def menu(self):
         while True:  
             user_input = int(input("""
-                1. Enter 1 to register\n
+                1. Enter 1 to register \n
                 2. Enter 2 to login \n
                 3. Enter 3 to insert a company \n
                 4. Enter 4 to delete a company \n
                 5. Enter 5 to delete your account \n
-                6. Enter 6 to exit\n
-                7. Enter 7 to view your portfolio \n"""))
+                6. Enter 6 to exit \n
+                7. Enter 7 to view your portfolio \n
+                8. Enter 8 to change your password \n
+            """))
 
             if user_input == 1:
                 self.register()
@@ -36,6 +38,8 @@ class StockTrack:
                 self.delete_user()
             elif user_input == 7:
                 self.view_portfolio()
+            elif user_input == 8:
+                self.change_password()
             elif user_input == 6:
                 print("Exiting application.")
                 sys.exit(0)
@@ -116,6 +120,11 @@ class StockTrack:
         response = self.db.search_portfolio(self.user_id)
         print(response)
 
+    def change_password(self):
+        new_pasword = input("Enter your new password")
+        response = self.db.update_password(self.user_id, new_pasword)
+        if response:
+            print("Password changed")
 if __name__ == "__main__":
     st = StockTrack()
 
