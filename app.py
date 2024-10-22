@@ -91,7 +91,7 @@ class StockTrack:
 
         if response:
             print("Login successful.")
-            self.user_id = int(response[0][0]) 
+            self.user_id = int(response[0]) 
         else:
             print("Login failed. Please check your credentials.")
 

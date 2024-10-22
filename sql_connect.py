@@ -1,5 +1,6 @@
 import sys
 import mysql.connector
+import bcrypt
 
 class sql_connector():
     def __init__(self):
@@ -11,11 +12,12 @@ class sql_connector():
             sys.exit(0)
 
     def register(self, firstname, lastname, email, password):
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         try:
             self.mycursor.execute("""
                 INSERT INTO users (firstname, lastname, email, password) 
                 VALUES (%s, %s, %s, %s);
-            """, (firstname, lastname, email, password))
+            """, (firstname, lastname, email, hashed_password))
             self.conn.commit()
             return True
         except Exception as e:
@@ -26,10 +28,16 @@ class sql_connector():
         try:
             self.mycursor.execute("""
                 SELECT * FROM users 
-                WHERE email = %s AND password = %s;
-            """, (email, password))
-            data = self.mycursor.fetchall()
-            return data
+                WHERE email = %s;
+            """, (email,))
+            data = self.mycursor.fetchone()
+            print('data', data)
+            registered_password = data[1]
+            print(registered_password)
+            if data and bcrypt.checkpw(password.encode('utf-8'), registered_password.encode('utf-8')):
+                return data
+            else:
+                return False
         except Exception as e:
             print(f"Error: {e}")
             return False
