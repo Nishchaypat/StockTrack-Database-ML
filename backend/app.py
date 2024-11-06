@@ -125,6 +125,7 @@ class StockTrack:
         response = self.db.update_password(self.user_id, new_pasword)
         if response:
             print("Password changed")
+            
 if __name__ == "__main__":
     st = StockTrack()
 
