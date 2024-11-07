@@ -68,3 +68,9 @@ async def change_password(user_id: int, new_password: str):
         return {"message": "Password changed successfully."}
     else:
         raise HTTPException(status_code=400, detail="Failed to change password.")
+
+
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the API"}
+
