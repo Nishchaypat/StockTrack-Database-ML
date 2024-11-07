@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockTrack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h2 class="logo">StockTrack</h2>
+        <nav class="navigation">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <button class="btnLogin-popup" onclick="showLogin()">Login</button>
+        </nav>
+    </header>
+
+    <div class="wrapper">
+        <span class="icon-close" onclick="hideForms()">
+            <ion-icon name="close"></ion-icon>
+        </span>
+
+        <!-- Login Form -->
+        <div class="form-box login" id="login-form">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" id="loginEmail" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" id="loginPassword" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">Remember me</label>
+                    <a href="#">Forgot Password</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p id="loginResponse"></p>
+                <div class="login-signup">
+                    <p>Don't have an account? <a href="#" onclick="showSignup()" class="signup-link">SignUp</a></p>
+                </div>
+            </form>
+        </div>
+
+        <!-- SignUp Form -->
+        <div class="form-box signup" id="signup-form">
+            <h2>SignUp</h2>
+            <form id="signupForm">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" id="signupFirstname" required>
+                    <label>First Name</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" id="signupLastname" required>
+                    <label>Last Name</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" id="signupEmail" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" id="signupPassword" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">I agree to terms & conditions</label>
+                </div>
+                <button type="submit" class="btn">SignUp</button>
+                <p id="signupResponse"></p>
+                <div class="login-signup">
+                    <p>Already have an account? <a href="#" onclick="showLogin()" class="login-link">Login</a></p>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
