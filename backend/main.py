@@ -9,7 +9,7 @@ db = sql_connector()
 # Enable CORS for frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Adjust this if your frontend is hosted elsewhere
+    allow_origins=["*"],  # Adjust this if your frontend is hosted elsewhere
     allow_credentials=True,
     allow_methods=["*"], 
     allow_headers=["*"], 
