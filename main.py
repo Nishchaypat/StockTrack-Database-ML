@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from sql_connect import sql_connector
 import re
 
@@ -47,6 +47,10 @@ class StockTrack:
         return {"status": "success"} if response else {"status": "error", "message": "Error changing password"}
 
 st = StockTrack()
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # Flask Routes
 @app.route('/register', methods=['POST'])

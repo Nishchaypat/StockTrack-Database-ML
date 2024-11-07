@@ -1,6 +1,0 @@
-Flask==2.3.2
-mysql-connector-python==8.0.33
-bcrypt==4.0.1
-Flask-Cors==3.0.10            # Optional for handling CORS
-python-dotenv==1.0.0          # Optional for environment variables
-Flask-Session==0.4.0          # Optional for session management
