@@ -1,121 +1,129 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask_cors import CORS
 from sql_connect import sql_connector
 import re
 
 app = Flask(__name__)
-
-class StockTrack:
-
-    def __init__(self):
-        self.db = sql_connector()
-        self.user_id = None
-
-    def register(self, firstname, lastname, email, password):
-        # Registration validation
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            return {"status": "error", "message": "Invalid email format"}
-        
-        response = self.db.register(firstname, lastname, email, password)
-        return {"status": "success"} if response else {"status": "error", "message": "Registration failed"}
-
-    def login(self, email, password):
-        response = self.db.login(email, password)
-        if response:
-            self.user_id = int(response[0])
-            return {"status": "success", "user_id": self.user_id}
-        else:
-            return {"status": "error", "message": "Login failed"}
-
-    def portfolio(self, ticker):
-        response = self.db.insert_portfolio(self.user_id, ticker)
-        return {"status": "success"} if response else {"status": "error", "message": "Error adding company to portfolio"}
-
-    def delete_user(self):
-        response = self.db.delete_user(self.user_id)
-        return {"status": "success"} if response else {"status": "error", "message": "Error deleting user"}
-
-    def delete_company(self, ticker):
-        response = self.db.delete_company_from_portfolio(self.user_id, ticker)
-        return {"status": "success"} if response else {"status": "error", "message": "Error deleting company from portfolio"}
-
-    def view_portfolio(self):
-        response = self.db.search_portfolio(self.user_id)
-        return {"portfolio": response}
-
-    def change_password(self, new_password):
-        response = self.db.update_password(self.user_id, new_password)
-        return {"status": "success"} if response else {"status": "error", "message": "Error changing password"}
-
-st = StockTrack()
+CORS(app)  # Enable CORS for cross-origin requests
+db = sql_connector()  # Shared database instance for all routes
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html')  # Main landing page (frontend HTML)
 
-# Flask Routes
 @app.route('/register', methods=['POST'])
-def register_user():
-    data = request.json
-    firstname = data.get('firstname')
-    lastname = data.get('lastname')
-    email = data.get('email')
-    password = data.get('password')
-    result = st.register(firstname, lastname, email, password)
-    return jsonify(result)
+def register():
+    data = request.get_json()
+    firstname = data.get("firstname")
+    lastname = data.get("lastname")
+    email = data.get("email")
+    password = data.get("password")
+    confirm_password = data.get("confirm_password")
+
+    # Validations
+    if not firstname or not lastname:
+        return jsonify({"error": "First and last names are required."}), 400
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        return jsonify({"error": "Invalid email format."}), 400
+    if password != confirm_password:
+        return jsonify({"error": "Passwords do not match."}), 400
+    if len(password) < 8 or not re.search(r'[A-Za-z]', password) or not re.search(r'[0-9]', password):
+        return jsonify({"error": "Password must be at least 8 characters with letters and numbers."}), 400
+
+    # Register user
+    response = db.register(firstname, lastname, email, password)
+    if response:
+        return jsonify({"message": "Registration successful."}), 201
+    else:
+        return jsonify({"error": "Error during registration."}), 500
 
 @app.route('/login', methods=['POST'])
-def login_user():
-    data = request.json
-    email = data.get('email')
-    password = data.get('password')
-    result = st.login(email, password)
-    return jsonify(result)
+def login():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+    response = db.login(email, password)
+
+    if response:
+        return jsonify({"message": "Login successful.", "user_id": response[0]}), 200
+    else:
+        return jsonify({"error": "Login failed. Check credentials."}), 401
 
 @app.route('/portfolio', methods=['POST'])
 def add_to_portfolio():
-    if st.user_id:
-        data = request.json
-        ticker = data.get('ticker')
-        result = st.portfolio(ticker)
-        return jsonify(result)
-    else:
-        return jsonify({"status": "error", "message": "User not logged in"}), 401
+    data = request.get_json()
+    user_id = data.get("user_id")
+    ticker = data.get("ticker")
 
-@app.route('/delete_user', methods=['POST'])
-def delete_user_account():
-    if st.user_id:
-        result = st.delete_user()
-        return jsonify(result)
+    response = db.insert_portfolio(user_id, ticker)
+    if response:
+        return jsonify({"message": f"Company {ticker} added to portfolio."}), 200
     else:
-        return jsonify({"status": "error", "message": "User not logged in"}), 401
+        return jsonify({"error": f"Error adding {ticker} to portfolio."}), 500
 
-@app.route('/delete_company', methods=['POST'])
+@app.route('/portfolio', methods=['DELETE'])
 def delete_company():
-    if st.user_id:
-        data = request.json
-        ticker = data.get('ticker')
-        result = st.delete_company(ticker)
-        return jsonify(result)
-    else:
-        return jsonify({"status": "error", "message": "User not logged in"}), 401
+    data = request.get_json()
+    user_id = data.get("user_id")
+    ticker = data.get("ticker")
 
-@app.route('/view_portfolio', methods=['GET'])
-def view_portfolio():
-    if st.user_id:
-        result = st.view_portfolio()
-        return jsonify(result)
+    response = db.delete_company_from_portfolio(user_id, ticker)
+    if response:
+        return jsonify({"message": f"Company {ticker} removed from portfolio."}), 200
     else:
-        return jsonify({"status": "error", "message": "User not logged in"}), 401
+        return jsonify({"error": f"Error deleting {ticker} from portfolio."}), 500
+
+@app.route('/portfolio/<int:user_id>', methods=['GET'])
+def view_portfolio(user_id):
+    response = db.search_portfolio(user_id)
+    if response:
+        return jsonify({"portfolio": response}), 200
+    else:
+        return jsonify({"error": "No portfolio data found."}), 404
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
-    if st.user_id:
-        data = request.json
-        new_password = data.get('new_password')
-        result = st.change_password(new_password)
-        return jsonify(result)
-    else:
-        return jsonify({"status": "error", "message": "User not logged in"}), 401
+    data = request.get_json()
+    user_id = data.get("user_id")
+    new_password = data.get("new_password")
 
-if __name__ == '__main__':
+    if len(new_password) < 8:
+        return jsonify({"error": "Password must be at least 8 characters."}), 400
+
+    response = db.update_password(user_id, new_password)
+    if response:
+        return jsonify({"message": "Password changed successfully."}), 200
+    else:
+        return jsonify({"error": "Error changing password."}), 500
+
+@app.route('/delete_account', methods=['DELETE'])
+def delete_account():
+    data = request.get_json()
+    user_id = data.get("user_id")
+
+    response = db.delete_user(user_id)
+    if response:
+        return jsonify({"message": "Account deleted successfully."}), 200
+    else:
+        return jsonify({"error": "Error deleting account."}), 500
+
+# Fetch user information for sidebar display
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user_info(user_id):
+    user_info = db.get_user_info(user_id)
+    if user_info:
+        return jsonify(user_info), 200
+    else:
+        return jsonify({"error": "User not found."}), 404
+
+# Fetch stocks associated with a user
+@app.route('/api/stocks/<int:user_id>', methods=['GET'])
+def get_user_stocks(user_id):
+    stocks = db.get_user_stocks(user_id)
+    if stocks:
+        return jsonify({"stocks": stocks}), 200
+    else:
+        return jsonify({"error": "No stocks found for user."}), 404
+
+if __name__ == "__main__":
     app.run(debug=True)

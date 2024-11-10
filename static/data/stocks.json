@@ -1,0 +1,62 @@
+[
+    {
+        "name": "APPLE",
+        "symbol": "AAPL",
+        "sector": "Tech",
+        "open_value": 145.32
+    },
+    {
+        "name": "MICROSOFT",
+        "symbol": "MSFT",
+        "sector": "Tech",
+        "open_value": 310.25
+    },
+    {
+        "name": "GOOGLE",
+        "symbol": "GOOGL",
+        "sector": "Tech",
+        "open_value": 2750.75
+    },
+    {
+        "name": "AMAZON",
+        "symbol": "AMZN",
+        "sector": "E-commerce",
+        "open_value": 3450.80
+    },
+    {
+        "name": "TESLA",
+        "symbol": "TSLA",
+        "sector": "Automotive",
+        "open_value": 800.50
+    },
+    {
+        "name": "FACEBOOK",
+        "symbol": "META",
+        "sector": "Social Media",
+        "open_value": 355.00
+    },
+    {
+        "name": "NETFLIX",
+        "symbol": "NFLX",
+        "sector": "Entertainment",
+        "open_value": 620.35
+    },
+    {
+        "name": "NIKE",
+        "symbol": "NKE",
+        "sector": "Apparel",
+        "open_value": 150.15
+    },
+    {
+        "name": "DISNEY",
+        "symbol": "DIS",
+        "sector": "Entertainment",
+        "open_value": 180.45
+    },
+    {
+        "name": "WALMART",
+        "symbol": "WMT",
+        "sector": "Retail",
+        "open_value": 145.10
+    }
+]

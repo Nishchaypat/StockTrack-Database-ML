@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stocks.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar-wrapper">
+        <div class="sidebar">
+            <!-- Profile Section -->
+            <div class="profile">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Profile Logo" class="profile-logo">
+                <p class="profile-name"><span id="userFirstName"></span><br><span id="userLastName"></span></p>
+                <p class="profile-email" id="userEmail"></p>
+            </div>
+            
+            <!-- Sidebar Menu Links -->
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">Dashboard
+                    <ion-icon name="bookmark-outline" class="menu-icon"></ion-icon>
+                </a>
+                <a href="#" class="menu-item">Change Password
+                    <ion-icon name="create-outline" class="menu-icon"></ion-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Back Button -->
+        <a href="index.html" class="back-button">
+            <ion-icon name="arrow-back-circle-outline" class="back-icon"></ion-icon>Home
+        </a>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-bar">
+                <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                <input type="text" class="search-input" placeholder="Search here...">
+                <button class="search-button">Search</button>
+            </div>
+        </div>
+
+        <!-- Dynamic Stocks Container -->
+        <div class="stocks-container" id="stocksContainer"></div>
+    </div>
+
+    <!-- JavaScript for icons and other scripts -->
+    <script src="{{ url_for('static', filename='js/stocks.js') }}"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData(); // Load user info into the sidebar
+            loadStockData(); // Load stock data from the backend
+        });
+    </script>
+</body>
+</html>

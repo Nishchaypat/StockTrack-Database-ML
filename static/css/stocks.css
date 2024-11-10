@@ -1,0 +1,141 @@
+body {
+    background-image: url('{{ url_for('static', filename='background1.jpg') }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Search Container */
+.search-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 30px;
+    padding: 5px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
+
+.search-icon {
+    font-size: 1.8em;
+    color: #f89f5b;
+    margin-right: 10px;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    font-size: 1em;
+    padding: 10px;
+    color: #333;
+}
+
+.search-button {
+    background-color: #2f5e5a;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #1a3e3a;
+}
+
+/* Stocks Container */
+.stocks-container {
+    width: 85%;
+    margin: 20px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Stock Row */
+.stock-row {
+    display: flex;
+    align-items: center;
+    background-color: #2f5e5a;
+    padding: 15px 20px;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: #e8e8e8;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.stock-row:hover {
+    background-color: #1e4c48;
+    transform: translateY(-5px);
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #ffcc66;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.company-name {
+    flex: 2;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 1.2em;
+}
+
+.stock-symbol {
+    flex: 1;
+    background-color: #333;
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0px 0px 8px #00d9ff;
+}
+
+.sector {
+    flex: 2;
+    color: #b2d2cf;
+    text-align: center;
+    font-size: 1em;
+}
+
+.open-value {
+    flex: 1;
+    color: #b2d2cf;
+    text-align: center;
+    font-size: 1em;
+}
+
+.star-button {
+    font-size: 1.8em;
+    color: #ffcc66;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.3s;
+    text-align: right;
+}
+
+.star-button:hover {
+    transform: scale(1.2);
+    color: #e8b365;
+}

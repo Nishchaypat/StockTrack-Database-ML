@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; /* Ensures video stays behind other content */
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.logo img {
+    width: 270px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-top: 8px;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 20px;
+}
+
+.navigation a {
+    position: relative;
+    font-size: 1.3em;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 30px;
+}
+
+.navigation-left {
+    display: flex;
+    align-items: center;
+    margin-left: 100px;
+    gap: 45px;
+}
+
+.navigation a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: #00eeff;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .4s;
+}
+
+.navigation a:hover::after {
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+.navigation .btnLogin-popup {
+    width: 130px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #fff;
+    font-weight: 500;
+    margin-left: 150px;
+    transition: .5s;
+}
+
+.navigation .btnLogin-popup:hover {
+    background: #00eeff;
+    color: #030303;
+}
+
+.wrapper {
+    position: absolute;
+    top: 15%;
+    right: 5%;
+    width: 500px;
+    height: 450px;
+    background: transparent;
+    filter: brightness(3.0);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    border-color: #030303;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .5s ease, height .3s ease;
+}
+
+
+.wrapper.active-popup {
+    transform: scale(1);
+    margin-top: 20px;
+}
+
+.wrapper.active {
+    height: 500px;
+}
+
+.wrapper .form-box {
+    width: 100%;
+    padding: 40px;
+
+}
+
+.wrapper .form-box.login {
+    transition: transform .18s ease;
+    transform: translateX(0);
+}
+
+.wrapper.active .form-box.login {
+    transition: none;
+    transform: translateX(-500px);
+}
+
+.wrapper .form-box.signup {
+    position: absolute;
+    transition: none;
+    transform: translateX(500px);
+    max-height: 500px; /* Set a maximum height for the popup */
+    overflow-y: auto;  /* Enable vertical scrolling if content exceeds height */
+}
+
+.wrapper.active .form-box.signup {
+    transition: transform .18s ease;
+    transform: translateX(0);
+}
+
+/* Style the scrollbar for the signup form */
+.wrapper .form-box.signup::-webkit-scrollbar {
+    width: 8px; /* Adjust width as needed */
+}
+
+.wrapper .form-box.signup::-webkit-scrollbar-track {
+    background: transparent; /* Blue background to match the signup box */
+    border-radius: 10px; /* Optional: adds rounded edges */
+}
+
+.wrapper .form-box.signup::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Darker shade of blue for the scrollbar thumb */
+    border-radius: 10px; /* Optional: adds rounded edges */
+    border: 2px solid #505050; /* Adds padding around the thumb */
+}
+
+/* Optional: Style scrollbar for Firefox */
+.wrapper .form-box.signup {
+    scrollbar-color: #505050 transparent; /* thumb color, track color */
+    scrollbar-width: thin; /* Makes the scrollbar a bit thinner */
+}
+
+
+.wrapper .icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: #9e9e9e;
+    font-size: 2em;
+    color:#030303;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+
+.form-box h2 {
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid #9e9e9e;
+    margin: 30px 0;
+}
+
+.input-box label {
+    position: absolute;
+    /*top: 50%;*/
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #fff;
+    font-weight: 500;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -5px
+}
+
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: #3b3b3b;
+    font-weight: 600;
+    padding: 0 35px 0 5px;
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #00eeff;
+    line-height: 57px;
+}
+
+.remember-forgot {
+    font-size: .9em;
+    color: #9e9e9e;
+    font-weight: 500;
+    margin: -15px 0 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.remember-forgot label input {
+    accent-color: black;
+    margin-right: 3px;
+}
+
+.remember-forgot a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+    color: #00eeff;
+}
+
+.btn {
+    width: 100%;
+    height: 45px;
+    background: #9e9e9e;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #030303;
+    font-weight: 500;
+}
+
+.login-signup {
+    font-size: .9em;
+    color: #fff7dd;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+}
+
+.login-signup p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-signup p a:hover {
+    text-decoration: underline;
+    color: #00eeff;
+}
+
+

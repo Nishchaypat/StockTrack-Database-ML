@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar-wrapper">
+        <div class="sidebar">
+            <!-- Profile Section -->
+            <div class="profile">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Profile Logo" class="profile-logo">
+                <p class="profile-name"><span id="userFirstName"></span> <br><span id="userLastName"></span></p>
+                <p class="profile-email" id="userEmail"></p>
+            </div>
+            
+            <!-- Sidebar Menu Links -->
+            <div class="sidebar-menu">
+                <a href="stocks.html" class="menu-item">Search Stocks
+                    <ion-icon name="search-outline" class="menu-icon"></ion-icon>
+                </a>
+                <a href="#" class="menu-item">Delete
+                    <ion-icon name="trash-outline" class="menu-icon"></ion-icon>
+                </a>
+                <a href="#" class="menu-item">Change Password
+                    <ion-icon name="create-outline" class="menu-icon"></ion-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Back Button and Favorites Header -->
+        <a href="index.html" class="back-button">
+            <ion-icon name="arrow-back-circle-outline" class="back-icon"></ion-icon>Home
+        </a>
+        <h1 class="favorites-header">Favorites</h1>
+        <!-- Container to display favorite stocks -->
+        <div class="favorites-container"></div>
+    </div>
+
+    <!-- JavaScript for icons and other scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        function displayFavorites() {
+            const favoritesContainer = document.querySelector('.favorites-container');
+            favoritesContainer.innerHTML = ''; // Clear previous content
+    
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    
+            if (favorites.length > 0) {
+                favorites.forEach(stock => {
+                    const stockRow = document.createElement('div');
+                    stockRow.classList.add('stock-row');
+    
+                    const dot = document.createElement('span');
+                    dot.classList.add('dot');
+    
+                    const companyName = document.createElement('span');
+                    companyName.classList.add('company-name');
+                    companyName.textContent = stock.companyName;
+    
+                    const stockSymbol = document.createElement('span');
+                    stockSymbol.classList.add('stock-symbol');
+                    stockSymbol.textContent = stock.stockSymbol;
+    
+                    const sector = document.createElement('span');
+                    sector.classList.add('sector');
+                    sector.textContent = stock.sector || "Unknown";
+    
+                    const openValue = document.createElement('span');
+                    openValue.classList.add('open-value');
+                    openValue.textContent = stock.openValue || "N/A";
+    
+                    const starButton = document.createElement('span');
+                    starButton.classList.add('star-button');
+                    starButton.textContent = '★'; // Display as filled star by default
+    
+                    stockRow.append(dot, companyName, stockSymbol, sector, openValue, starButton);
+                    favoritesContainer.appendChild(stockRow);
+                });
+            } else {
+                favoritesContainer.innerHTML = '<p>No favorites added yet.</p>';
+            }
+        }
+    
+        // Call displayFavorites when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            displayFavorites();
+            loadUserData(); // Fetch and display user data in sidebar
+        });
+    </script>
+</body>
+</html>
