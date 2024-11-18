@@ -1,4 +1,4 @@
-from sql_connect import sql_connector
+from amazon_insert_data_initial import sql_connector
 import requests
 import yfinance as yf
 import datetime
@@ -7,8 +7,9 @@ class stockdata:
     def __init__(self, ticker):
         self.ticker = ticker
         self.news_api = '8950c31b2f2d406ea056828f40160adc'
-    def company(self):
+        self.db = sql_connector()
 
+    def company(self):
         ticker = yf.Ticker(self.ticker)
         info = ticker.info
         name = info.get('longName') 
@@ -51,7 +52,6 @@ class stockdata:
         income_stmt = ticker.income_stmt
         dividends = ticker.dividends
 
-
         if financials.empty or income_stmt.empty:
             print("Financials or income statement data is not available.")
             return
@@ -69,7 +69,7 @@ class stockdata:
         }
 
         return finmetric_data  
-    
+
     def news(self, ticker):
         today = datetime.date.today()
         yesterday = today - datetime.timedelta(days=1)
@@ -147,23 +147,23 @@ class populate_db:
             
             self.db.insert_news_article(str(ticker), title, content, date)
 
-# populate = populate_db()
+populate = populate_db()
 
-# companies = [
-#     "NVDA", "AMD", "PYPL", "F", "GM", 
-#     "SPGI", "AXP", "GS", "BLK", "MS", 
-#     "DE", "IBM", "INTU", "ABBV", "ABT", 
-#     "BMY", "LLY", "GILD", "MRNA", "REGN", 
-#     "LRCX", "MU", "ADSK", "ATVI", "EA", 
-#     "DIS", "RCL", "UAL", "DAL", "AAL", 
-#     "BKNG", "MAR", "HLT", "KHC", "MO", 
-#     "CL", "EL", "TMO", "ISRG", "SYK", 
-#     "BDX", "DHR", "PLTR", "SQ", "SHOP", 
-#     "ZS", "PANW", "SNOW", "DDOG", "CRWD"
-# ]
+companies = [
+    "NVDA", "AMD", "PYPL", "F", "GM", 
+    "SPGI", "AXP", "GS", "BLK", "MS", 
+    "DE", "IBM", "INTU", "ABBV", "ABT", 
+    "BMY", "LLY", "GILD", "MRNA", "REGN", 
+    "LRCX", "MU", "ADSK", "ATVI", "EA", 
+    "DIS", "RCL", "UAL", "DAL", "AAL", 
+    "BKNG", "MAR", "HLT", "KHC", "MO", 
+    "CL", "EL", "TMO", "ISRG", "SYK", 
+    "BDX", "DHR", "PLTR", "SQ", "SHOP", 
+    "ZS", "PANW", "SNOW", "DDOG", "CRWD"
+]
 
-# for i in companies:
-#     try:
-#         populate.company_table(i)
-#     except:
-#         print(i)
+for i in companies:
+    try:
+        populate.company_table(i)
+    except:
+        print(i)
