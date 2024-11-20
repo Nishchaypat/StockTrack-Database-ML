@@ -28,22 +28,25 @@ class stockdata:
         today = datetime.date.today()
         last_week = today - datetime.timedelta(days=7)
 
+        # Fetch stock data from Yahoo Finance
         stock_data = yf.download(ticker, start=last_week, end=today)
         stock_data.reset_index(inplace=True)
         stock_data['Date'] = stock_data['Date'].dt.strftime('%Y-%m-%d')
-        stockprice_data = []
-        stock_data = stock_data.iloc[-1]
+
+        # Get the most recent row of stock data
+        stock_data = stock_data.iloc[-1]  # Get the latest row
+
+        # Prepare the row data, ensuring proper conversion of values
         row_data = {
             'Date': stock_data['Date'],
-            'Open': stock_data['Open'].item(),   # Convert to float
-            'High': stock_data['High'].item(),   # Convert to float
-            'Low': stock_data['Low'].item(),     # Convert to float
-            'Close': stock_data['Close'].item(), # Convert to float
-            'Volume': int(stock_data['Volume'])  # Convert to int
+            'Open': stock_data['Open'],   # Already float
+            'High': stock_data['High'],   # Already float
+            'Low': stock_data['Low'],     # Already float
+            'Close': stock_data['Close'], # Already float
+            'Volume': stock_data['Volume']  # Already int
         }
-        stockprice_data.append(row_data)
-
-        return stockprice_data
+        
+        return row_data
 
     def finmetric(self, ticker):
         ticker = yf.Ticker(ticker)
@@ -110,18 +113,28 @@ class populate_db:
         print(response)
         self.stock_price_table(str(ticker))
 
+
     def stock_price_table(self, ticker):
+        # Get stock price data for the ticker
         company_sd = stockdata(ticker)
         stock_data = company_sd.stockprice(ticker)
-        for row in stock_data:
-            date = row['Date'] 
-            open_price = row['Open']
-            high = row['High']
-            low = row['Low']
-            close = row['Close']
-            volume = row['Volume']
-            
-            self.db.insert_stock_price(str(ticker), date, open_price, high, low, close, volume)
+        print(stock_data)
+        
+        # Extract individual values from the stock data dictionary
+        date = stock_data['Date'].values[0]  # Extract scalar from the series
+        open_price = float(stock_data['Open'].values[0])  # Extract scalar and convert to float
+        high = float(stock_data['High'].values[0])        # Extract scalar and convert to float
+        low = float(stock_data['Low'].values[0])          # Extract scalar and convert to float
+        close = float(stock_data['Close'].values[0])      # Extract scalar and convert to float
+        volume = int(stock_data['Volume'].values[0])      # Extract scalar and convert to int
+
+        # Print values to verify
+        print(date, open_price, high, low, close, volume)
+
+        # Insert the stock price data into the database
+        self.db.insert_stock_price(str(ticker), date, open_price, high, low, close, volume)
+
+        # Call to insert financial metrics data for the ticker
         self.financial_metric_table(str(ticker))
 
     def financial_metric_table(self, ticker):
@@ -150,16 +163,16 @@ class populate_db:
 populate = populate_db()
 
 companies = [
-    "NVDA", "AMD", "PYPL", "F", "GM", 
-    "SPGI", "AXP", "GS", "BLK", "MS", 
-    "DE", "IBM", "INTU", "ABBV", "ABT", 
-    "BMY", "LLY", "GILD", "MRNA", "REGN", 
-    "LRCX", "MU", "ADSK", "ATVI", "EA", 
-    "DIS", "RCL", "UAL", "DAL", "AAL", 
-    "BKNG", "MAR", "HLT", "KHC", "MO", 
-    "CL", "EL", "TMO", "ISRG", "SYK", 
-    "BDX", "DHR", "PLTR", "SQ", "SHOP", 
-    "ZS", "PANW", "SNOW", "DDOG", "CRWD"
+    "AMD", "PYPL", "F", "GM", 
+    # "SPGI", "AXP", "GS", "BLK", "MS", 
+    # "DE", "IBM", "INTU", "ABBV", "ABT", 
+    # "BMY", "LLY", "GILD", "MRNA", "REGN", 
+    # "LRCX", "MU", "ADSK", "ATVI", "EA", 
+    # "DIS", "RCL", "UAL", "DAL", "AAL", 
+    # "BKNG", "MAR", "HLT", "KHC", "MO", 
+    # "CL", "EL", "TMO", "ISRG", "SYK", 
+    # "BDX", "DHR", "PLTR", "SQ", "SHOP", 
+    # "ZS", "PANW", "SNOW", "DDOG", "CRWD"
 ]
 
 for i in companies:

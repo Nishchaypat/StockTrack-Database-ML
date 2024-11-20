@@ -18,6 +18,51 @@ class stockdata():
             print("Some error occurred:", e)
             sys.exit(0)
 
+    def drop_foreign_keys(self):
+        # SQL queries to drop foreign key constraints
+        drop_foreign_key_stock_prices = """
+        ALTER TABLE stock_prices DROP FOREIGN KEY stock_prices_ibfk_1;
+        """
+        drop_foreign_key_financial_metrics = """
+        ALTER TABLE financial_metrics DROP FOREIGN KEY financial_metrics_ibfk_1;
+        """
+        drop_foreign_key_news_articles = """
+        ALTER TABLE news_articles DROP FOREIGN KEY news_articles_ibfk_1;
+        """
+        try:
+            # Execute the drop foreign key queries
+            self.mycursor.execute(drop_foreign_key_stock_prices)
+            self.mycursor.execute(drop_foreign_key_financial_metrics)
+            self.mycursor.execute(drop_foreign_key_news_articles)
+
+            # Commit changes to the database
+            self.conn.commit()
+            print("Foreign key constraints dropped successfully.")
+        except Exception as e:
+            print(f"Error dropping foreign key constraints: {e}")
+
+    def drop_tables(self):
+        # SQL queries to drop existing tables if they exist
+        drop_companies_table = "DROP TABLE IF EXISTS companies;"
+        drop_stock_prices_table = "DROP TABLE IF EXISTS stock_prices;"
+        drop_financial_metrics_table = "DROP TABLE IF EXISTS financial_metrics;"
+        drop_news_articles_table = "DROP TABLE IF EXISTS news_articles;"
+        drop_users_table = "DROP TABLE IF EXISTS users;"
+
+        try:
+            # Execute the drop table queries
+            self.mycursor.execute(drop_companies_table)
+            self.mycursor.execute(drop_stock_prices_table)
+            self.mycursor.execute(drop_financial_metrics_table)
+            self.mycursor.execute(drop_news_articles_table)
+            self.mycursor.execute(drop_users_table)
+
+            # Commit changes to the database
+            self.conn.commit()
+            print("All tables dropped successfully.")
+        except Exception as e:
+            print(f"Error dropping tables: {e}")
+
     def create_tables(self):
         # SQL queries to create necessary tables if they don't already exist
         create_companies_table = """
@@ -93,4 +138,12 @@ class stockdata():
 
 if __name__ == "__main__":
     stock_db = stockdata()
+    
+    # Drop foreign key constraints first
+    stock_db.drop_foreign_keys()
+    
+    # Drop existing tables
+    stock_db.drop_tables()
+
+    # Now create new tables
     stock_db.create_tables()

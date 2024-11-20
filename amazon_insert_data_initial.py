@@ -23,18 +23,21 @@ class sql_connector():
                 VALUES (%s, %s, %s, %s, %s);
             """, (symbol, name, sector, industry, description))
             self.conn.commit()
+            print('here in company table')
             return self.mycursor.lastrowid 
         except Exception as e:
             print(f"Error: {e}")
             return None
 
     def insert_stock_price(self, symbol, date, open_price, high, low, close, volume):
+        print('here in stp table')
         try:
             self.mycursor.execute("""
                 INSERT INTO stock_prices (symbol, date, open_price, high, low, close, volume) 
                 VALUES (%s, %s, %s, %s, %s, %s, %s);
             """, (symbol, date, open_price, high, low, close, volume))
             self.conn.commit()
+            print('here in stp table cleared')
             return True
         except Exception as e:
             print(f"Error: {e}")
