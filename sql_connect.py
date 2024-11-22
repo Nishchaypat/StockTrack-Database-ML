@@ -5,7 +5,14 @@ import bcrypt
 class sql_connector():
     def __init__(self):
         try:
-            self.conn = mysql.connector.connect(host="localhost", user="root", password="", database="stocktrack")
+            self.conn = mysql.connector.connect(
+                host="database-1.cds0coo26frf.us-east-1.rds.amazonaws.com",
+                user="adminstocktrack",
+                password="Nrp212300",
+                port=3306,
+                database="stocktrack"
+            )
+
             self.mycursor = self.conn.cursor()
         except Exception as e:
             print("Some error occurred:", e)

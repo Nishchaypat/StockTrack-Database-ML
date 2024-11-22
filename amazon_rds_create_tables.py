@@ -122,13 +122,26 @@ class stockdata():
         );
         """
 
+        create_portfolio_table = """
+            CREATE TABLE IF NOT EXISTS portfolio (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            symbol VARCHAR(10) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (symbol) REFERENCES companies(symbol) ON DELETE CASCADE
+        );
+        """
+
+
         try:
             # Execute the table creation queries
-            self.mycursor.execute(create_companies_table)
-            self.mycursor.execute(create_stock_prices_table)
-            self.mycursor.execute(create_financial_metrics_table)
-            self.mycursor.execute(create_news_articles_table)
-            self.mycursor.execute(create_users_table)
+            # self.mycursor.execute(create_companies_table)
+            # self.mycursor.execute(create_stock_prices_table)
+            # self.mycursor.execute(create_financial_metrics_table)
+            # self.mycursor.execute(create_news_articles_table)
+            # self.mycursor.execute(create_users_table)
+            self.mycursor.execute(create_portfolio_table)
             
             # Commit changes to the database
             self.conn.commit()
@@ -140,10 +153,10 @@ if __name__ == "__main__":
     stock_db = stockdata()
     
     # Drop foreign key constraints first
-    stock_db.drop_foreign_keys()
+    #stock_db.drop_foreign_keys()
     
     # Drop existing tables
-    stock_db.drop_tables()
+    #stock_db.drop_tables()
 
     # Now create new tables
     stock_db.create_tables()
