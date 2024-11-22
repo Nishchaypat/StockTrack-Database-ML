@@ -163,16 +163,16 @@ class populate_db:
 populate = populate_db()
 
 companies = [
-    "AMD", "PYPL", "F", "GM", 
-    # "SPGI", "AXP", "GS", "BLK", "MS", 
-    # "DE", "IBM", "INTU", "ABBV", "ABT", 
-    # "BMY", "LLY", "GILD", "MRNA", "REGN", 
-    # "LRCX", "MU", "ADSK", "ATVI", "EA", 
-    # "DIS", "RCL", "UAL", "DAL", "AAL", 
-    # "BKNG", "MAR", "HLT", "KHC", "MO", 
-    # "CL", "EL", "TMO", "ISRG", "SYK", 
-    # "BDX", "DHR", "PLTR", "SQ", "SHOP", 
-    # "ZS", "PANW", "SNOW", "DDOG", "CRWD"
+
+    "SPGI", "AXP", "GS", "BLK", "MS", 
+    "DE", "IBM", "INTU", "ABBV", "ABT", 
+    "BMY", "LLY", "GILD", "MRNA", "REGN", 
+    "LRCX", "MU", "ADSK", "ATVI", "EA", 
+    "DIS", "RCL", "UAL", "DAL", "AAL", 
+    "BKNG", "MAR", "HLT", "KHC", "MO", 
+    "CL", "EL", "TMO", "ISRG", "SYK", 
+    "BDX", "DHR", "PLTR", "SQ", "SHOP", 
+    "ZS", "PANW", "SNOW", "DDOG", "CRWD"
 ]
 
 for i in companies:
