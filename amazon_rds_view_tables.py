@@ -21,7 +21,7 @@ tables = cursor.fetchall()
 # Iterate through tables and display content
 for (table_name,) in tables:
     print(f"\nContent of table: {table_name}")
-    cursor.execute(f"SELECT * FROM {table_name}")  # Limit to 10 rows for readability
+    cursor.execute(f"SELECT * FROM {table_name} LIMIT 1")  # Limit to 10 rows for readability
     rows = cursor.fetchall()
     
     # Print column headers

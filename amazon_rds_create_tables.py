@@ -43,11 +43,11 @@ class stockdata():
 
     def drop_tables(self):
         # SQL queries to drop existing tables if they exist
-        drop_companies_table = "DROP TABLE IF EXISTS companies;"
-        drop_stock_prices_table = "DROP TABLE IF EXISTS stock_prices;"
-        drop_financial_metrics_table = "DROP TABLE IF EXISTS financial_metrics;"
-        drop_news_articles_table = "DROP TABLE IF EXISTS news_articles;"
-        drop_users_table = "DROP TABLE IF EXISTS users;"
+        drop_companies_table = "DROP TABLE IF EXISTS django_session;"
+        drop_stock_prices_table = "DROP TABLE IF EXISTS django_migrations;"
+        drop_financial_metrics_table = "DROP TABLE IF EXISTS django_content_type;"
+        drop_news_articles_table = "DROP TABLE IF EXISTS django_admin_log;"
+        drop_users_table = "DROP TABLE IF EXISTS authtoken_token;"
 
         try:
             # Execute the drop table queries
@@ -156,7 +156,7 @@ if __name__ == "__main__":
     #stock_db.drop_foreign_keys()
     
     # Drop existing tables
-    #stock_db.drop_tables()
+    stock_db.drop_tables()
 
     # Now create new tables
-    stock_db.create_tables()
+    #stock_db.create_tables()
