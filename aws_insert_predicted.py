@@ -12,7 +12,7 @@ conn = mysql.connector.connect(
 # Create a cursor
 mycursor = conn.cursor()
 
-df = pd.read_csv('C:/Users/Nishc/OneDrive - Georgia State University/StockTrack/predicted.csv')
+df = pd.read_csv('C:/Users/Nishc/OneDrive - Georgia State University/StockTrack/predicted_new.csv')
 print("CSV file read successfully.")
 df.drop(columns=['Unnamed: 0'], inplace=True)
 # Insert data from the CSV
