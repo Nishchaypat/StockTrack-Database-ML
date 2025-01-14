@@ -1,80 +1,44 @@
-# [StockTrack](https://aistockvision.netlify.app/)
+# StockTrack: Machine Learning for Stock Market Insights  
 
-StockTrack is a stock tracking platform designed to empower investors with AI-powered predictions, real-time market insights, and comprehensive financial analysis. It integrates a custom-built API that links a Django backend (hosted on Render) with a React frontend (hosted on Netlify), ensuring seamless communication between the two technologies.
-
-## Key Features
-
-### Custom API Integration
-StockTrack is powered by a custom API that connects a Django backend (hosted on Render) with a React frontend (hosted on Netlify). This setup allows for efficient data transfer between the two platforms, ensuring that users get real-time updates and insights.
-
-### AI-Powered Price Prediction
-The platform uses an XGBoost model trained on historical stock price data and technical indicators. The model offers high prediction accuracy, helping users make informed investment decisions.
-
-### Sentiment Analysis
-Real-time sentiment analysis of financial news is integrated into the platform, helping users gauge market sentiment and adjust their strategies accordingly.
-
-### Database Management
-The database, hosted on AWS RDS, stores key information such as stock prices, financial metrics, and news articles, providing real-time updates and scalability.
-
-### Real-Time Market Updates
-The platform uses financial APIs to provide live stock price updates, news alerts, and market-moving events, ensuring users stay informed.
+This repository focuses on the **Machine Learning (ML)** components of StockTrack, a stock tracking platform designed to empower investors with **AI-driven predictions** and **sentiment analysis**. The ML models are the backbone of StockTrack's predictive capabilities, offering users actionable insights into stock price movements and market sentiment.
 
 ---
 
-## Project Overview
+## Key Features  
 
-StockTrack combines machine learning techniques and a robust database to offer real-time stock tracking and price prediction. The system is designed with a custom API that links a Django backend and a React frontend, providing a seamless user experience and scalable architecture.
+### AI-Powered Stock Price Prediction  
+- Utilizes an **XGBoost model** trained on historical OHLCV data and technical indicators such as SMA, EMA, RSI, MACD, Bollinger Bands, and ADX.  
+- Achieves **93% accuracy** in predicting stock prices, enabling investors to make informed decisions.  
 
----
+### Sentiment Analysis  
+- Real-time sentiment analysis of financial news using **BERT + LSTM**, helping gauge market sentiment and identify potential trends.  
 
-## Technical Stack
-
-- **Backend**: Django (hosted on Render) with a custom API to handle data requests.
-- **Frontend**: React.js (hosted on Netlify) for a responsive, dynamic user interface.
-- **Machine Learning**: XGBoost for stock price prediction.
-- **Database**: AWS RDS for data storage and management.
-
----
-
-## Key Functionalities
-
-### Basic Functions
-- User management
-- Real-time stock price tracking
-- Company financial analysis
-- Portfolio management
-
-### Advanced Features
-- AI-powered stock predictions
-- Sentiment analysis of news
-- Personalized investment insights
-- Automated risk assessment
+### Data Pipeline  
+- Historical stock data preprocessing for feature engineering and technical indicator calculation.  
+- Model evaluation includes metrics such as MAE, MSE, and RMSE for robust performance assessment.  
 
 ---
 
-## API Integration
+## Technical Stack  
 
-The custom API between Django and React ensures that real-time data, including stock prices and financial metrics, are seamlessly transferred and displayed on the React frontend. The backend is responsible for processing predictions and sentiment analysis, while the frontend handles user interactions and visualizations.
-
----
-
-## Machine Learning Model
-
-### XGBoost for Stock Price Prediction
-- **Accuracy**: 93% in predicting stock prices.
-- **Training Data**: Historical OHLCV data, technical indicators, and financial metrics.
-
-### Technical Indicators:
-- SMA, EMA, RSI, MACD, Bollinger Bands, ADX, Aroon
+- **Machine Learning Frameworks**: XGBoost, Scikit-learn  
+- **Sentiment Analysis Models**: BERT + LSTM using TensorFlow and PyTorch  
+- **Programming Language**: Python  
+- **Libraries**: Pandas, NumPy, Matplotlib, NLTK, Hugging Face Transformers  
 
 ---
 
-## Conclusion
+## Repository Highlights  
 
-StockTrack is a powerful platform for tracking stocks and making data-driven investment decisions. With a custom-built API linking Django and React, the platform offers real-time updates, AI-powered predictions, and a seamless user experience.
+1. **Stock Price Prediction**  
+   - Jupyter notebooks and Python scripts for training and testing the XGBoost model.  
+   - Feature engineering using historical OHLCV data and technical indicators.  
 
----
+2. **Sentiment Analysis**  
+   - Pre-trained BERT model fine-tuned with LSTM for financial text sentiment classification.  
+   - Python scripts for preprocessing text data and training the model.  
 
-## Connect with Me
+3. **Evaluation Metrics**  
+   - Performance metrics like Mean Absolute Error (MAE), Mean Squared Error (MSE), and Root Mean Squared Error (RMSE) for stock prediction.  
 
-[LinkedIn](https://www.linkedin.com/in/nishchay-pat/)
+
