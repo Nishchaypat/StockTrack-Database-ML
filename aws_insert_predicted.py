@@ -13,7 +13,7 @@ mycursor = conn.cursor()
 df = pd.read_csv('C:/Users/Nishc/OneDrive - Georgia State University/StockTrack/predicted_new.csv')
 print("CSV file read successfully.")
 df.drop(columns=['Unnamed: 0'], inplace=True)
-# Insert data from the CSV
+
 for index, row in df.iterrows():
     print(f"Inserting row {index}: {row['symbol']}, {row['actual']}, {row['predicted']}, {row['date']}")
     mycursor.execute("""
