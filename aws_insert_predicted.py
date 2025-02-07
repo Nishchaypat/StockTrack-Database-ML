@@ -8,7 +8,6 @@ conn = mysql.connector.connect(
     database="stocktrack"
 )
 
-# Create a cursor
 mycursor = conn.cursor()
 
 df = pd.read_csv('C:/Users/Nishc/OneDrive - Georgia State University/StockTrack/predicted_new.csv')
