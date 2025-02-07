@@ -21,7 +21,6 @@ for index, row in df.iterrows():
         VALUES (%s, %s, %s, %s)
     """, (row['symbol'], row['actual'], row['predicted'], row['date']))
 
-# Commit and close connection
 conn.commit()
 print("Data inserted successfully.")
 mycursor.close()
