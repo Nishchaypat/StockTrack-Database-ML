@@ -1,5 +1,6 @@
 import mysql.connector
 import pandas as pd
+
 conn = mysql.connector.connect(
     host="database-1.cds0coo26frf.us-east-1.rds.amazonaws.com",
     user="adminstocktrack",
