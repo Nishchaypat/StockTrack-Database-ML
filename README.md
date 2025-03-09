@@ -23,7 +23,7 @@ This repository focuses on the **Machine Learning (ML)** components of StockTrac
 
 - **Machine Learning Frameworks**: XGBoost, Scikit-learn  
 - **Sentiment Analysis Models**: BERT + LSTM using TensorFlow and PyTorch  
-- **Programming Language**: Python  
+- **Programming Language**: Python
 - **Libraries**: Pandas, NumPy, Matplotlib, NLTK, Hugging Face Transformers  
 
 ---
